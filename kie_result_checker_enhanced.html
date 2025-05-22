@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>KIE Kupwara - Result Checker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9fb;
+      text-align: center;
+      padding: 40px;
+      position: relative;
+    }
+
+    .logo {
+      max-width: 130px;
+      margin-bottom: 20px;
+    }
+
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      display: inline-block;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      position: relative;
+      z-index: 2;
+    }
+
+    .watermark {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 300px;
+      opacity: 0.05;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+    }
+
+    select, input {
+      padding: 10px;
+      width: 220px;
+      margin: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 10px 20px;
+      background: #2d89ef;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    #rollContainer {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <img src="kie_logo.png" class="logo" alt="KIE Logo">
+  <h1>Kashmir Institute of Excellence</h1>
+  <h2>Student Result Checker</h2>
+  <img src="kie_logo.png" class="watermark" alt="Watermark Logo">
+  <div class="container">
+    <div>
+      <select id="classSelector" onchange="showRollInput()">
+        <option value="">Select Class</option>
+        <option value="8">Class 8</option>
+        <option value="9">Class 9</option>
+        <option value="10">Class 10</option>
+      </select>
+    </div>
+
+    <div id="rollContainer">
+      <input type="text" id="rollInput" placeholder="Enter Roll Number" />
+      <button onclick="checkResult()">Check Result</button>
+    </div>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const results = {
+      "8": {
+        101: { name: "Ahmad Lone", marks: 275 },
+        102: { name: "Zara Khan", marks: 289 }
+      },
+      "9": {
+        103: { name: "Sameer Nabi", marks: 260 }
+      },
+      "10": {
+        104: { name: "Aisha Bhat", marks: 271 }
+      }
+    };
+
+    function showRollInput() {
+      const classVal = document.getElementById('classSelector').value;
+      const rollContainer = document.getElementById('rollContainer');
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = '';
+      rollContainer.style.display = classVal ? 'block' : 'none';
+    }
+
+    function checkResult() {
+      const classVal = document.getElementById('classSelector').value;
+      const roll = document.getElementById('rollInput').value.trim();
+      const resultDiv = document.getElementById('result');
+
+      if (results[classVal] && results[classVal][roll]) {
+        const data = results[classVal][roll];
+        resultDiv.innerHTML = `<p>Name: ${data.name}<br>Total Marks: ${data.marks}</p>`;
+      } else {
+        resultDiv.innerHTML = "<p style='color:red;'>Result not found. Please check your roll number.</p>";
+      }
+    }
+  </script>
+</body>
+</html>
